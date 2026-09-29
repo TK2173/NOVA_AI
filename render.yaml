@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: nova-ai
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: MAX_IMAGE_MB
+        value: 5
+      - key: MAX_OUTPUT_TOKENS
+        value: 800
+      - key: AI_BASE_URL
+        sync: false
+      - key: AI_MODEL
+        sync: false
+      - key: AI_API_KEY
+        sync: false

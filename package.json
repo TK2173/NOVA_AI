@@ -1,0 +1,19 @@
+{
+  "name": "nova-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NOVA AI — responsive chat assistant with image upload and an OpenAI-compatible vision backend",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "multer": "^1.4.5-lts.1"
+  }
+}

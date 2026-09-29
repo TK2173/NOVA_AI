@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d14">
+  <title>NOVA AI — твой ИИ-ассистент</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b0d14;--panel:#121521;--panel2:#191d2b;--line:#292e40;--text:#f4f3ff;--muted:#a5a9bf;--accent:#8167ff;--accent2:#a99aff}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#29204f 0,transparent 42%),var(--bg);color:var(--text);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100dvh}
+    button,textarea{font:inherit}button{cursor:pointer}.app{max-width:900px;margin:auto;min-height:100dvh;display:flex;flex-direction:column;padding:0 18px}
+    header{height:76px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #ffffff12;position:sticky;top:0;background:#0b0d14d9;backdrop-filter:blur(18px);z-index:5}
+    .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(140deg,#a89aff,#6446ed);display:grid;place-items:center;box-shadow:0 7px 28px #8167ff35}
+    .logo svg{width:25px}.brand{font-weight:800;letter-spacing:.04em;font-size:19px}.tagline{font-size:12px;color:var(--muted)}.status{margin-left:auto;font-size:12px;color:#a7f3c5;display:flex;align-items:center;gap:7px}.dot{width:7px;height:7px;background:#4ade80;border-radius:50%}
+    main{flex:1;display:flex;flex-direction:column;padding:30px 0 18px}.welcome{text-align:center;margin:auto auto 24px;max-width:560px}.orb{margin:0 auto 16px;width:64px;height:64px;display:grid;place-items:center;border-radius:22px;background:linear-gradient(145deg,#2c2457,#17172c);border:1px solid #8774ff55;box-shadow:0 0 65px #7057ff20}.orb svg{width:32px;color:#c3b9ff}.welcome h1{font-size:clamp(28px,5vw,40px);line-height:1.12;margin:0 0 10px;letter-spacing:-.04em}.welcome p{color:var(--muted);margin:0}.suggestions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:24px;text-align:left}.suggestion{border:1px solid var(--line);background:#151825b8;color:var(--text);border-radius:15px;padding:14px;transition:.18s}.suggestion:hover{border-color:#806bff;transform:translateY(-1px)}.suggestion strong{display:block;font-size:14px;margin-bottom:3px}.suggestion span{font-size:12px;color:var(--muted)}
+    #messages{display:flex;flex-direction:column;gap:18px;padding:10px 0 24px}.message{display:flex;gap:10px;align-items:flex-start;max-width:100%}.message.user{flex-direction:row-reverse}.avatar{width:32px;height:32px;flex:0 0 32px;border-radius:11px;display:grid;place-items:center;background:#26213f;color:#c3b9ff;font-size:12px;font-weight:800}.user .avatar{background:#2d2753;color:#fff}.bubble{max-width:min(78%,680px);padding:13px 15px;border:1px solid var(--line);background:var(--panel);border-radius:5px 17px 17px 17px;white-space:pre-wrap;overflow-wrap:anywhere}.user .bubble{background:#292248;border-color:#4b3e7b;border-radius:17px 5px 17px 17px}.bubble img{display:block;max-width:min(100%,320px);max-height:280px;object-fit:contain;border-radius:10px;margin-bottom:8px}.typing{color:var(--muted);font-size:14px}.composer-wrap{position:sticky;bottom:0;padding:14px 0 max(18px,env(safe-area-inset-bottom));background:linear-gradient(0deg,var(--bg) 78%,transparent);margin-top:auto}.composer{border:1px solid #36364c;background:#151824;border-radius:21px;padding:12px;box-shadow:0 10px 50px #0004}.preview{display:none;align-items:center;gap:10px;padding:0 4px 10px}.preview.show{display:flex}.preview img{width:58px;height:58px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}.preview-name{font-size:12px;color:var(--muted);flex:1}.icon-btn{width:40px;height:40px;border:1px solid #36364c;border-radius:12px;background:#202335;color:#d9d5ff;display:grid;place-items:center;flex:0 0 auto}.icon-btn svg{width:20px;height:20px}.input-row{display:flex;align-items:flex-end;gap:8px}.input-row textarea{resize:none;min-height:44px;max-height:160px;flex:1;width:100%;border:0;outline:0;background:transparent;color:var(--text);padding:10px 2px;line-height:1.45}.input-row textarea::placeholder{color:#777d95}.send{background:var(--accent);border:0;color:#fff;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex:0 0 auto}.send:disabled{opacity:.45;cursor:wait}.send svg{width:20px}.footnote{text-align:center;color:#737990;font-size:11px;padding-top:9px}.hidden{display:none!important}.error{color:#ffb4b4}.new-chat{margin-left:10px;background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 10px;border-radius:10px;font-size:12px}
+    @media(max-width:560px){.app{padding:0 12px}header{height:66px}.tagline{display:none}.status{font-size:11px}.new-chat{padding:7px}.welcome{margin-top:20px}.suggestions{gap:8px}.suggestion{padding:12px}.bubble{max-width:88%;padding:11px 12px}.message{gap:7px}.avatar{width:29px;height:29px;flex-basis:29px}.composer{padding:9px;border-radius:18px}.footnote{font-size:10px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M12 2.8 14.3 9.7 21.2 12l-6.9 2.3L12 21.2l-2.3-6.9L2.8 12l6.9-2.3L12 2.8Z"/><path d="m19 2 .7 2.3L22 5l-2.3.7L19 8l-.7-2.3L16 5l2.3-.7L19 2Z"/></svg></div>
+    <div><div class="brand">NOVA AI</div><div class="tagline">Твой ИИ. Твои идеи.</div></div>
+    <div class="status"><span class="dot"></span><span id="statusText">Ассистент готов</span></div>
+    <button class="new-chat" id="newChat" type="button">Новый чат</button>
+  </header>
+  <main>
+    <section class="welcome" id="welcome">
+      <div class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2.8 14.3 9.7 21.2 12l-6.9 2.3L12 21.2l-2.3-6.9L2.8 12l6.9-2.3L12 2.8Z"/><path d="m19 2 .7 2.3L22 5l-2.3.7L19 8l-.7-2.3L16 5l2.3-.7L19 2Z"/></svg></div>
+      <h1>Привет! Я NOVA.</h1>
+      <p>Спроси что угодно или прикрепи фотографию — разберёмся вместе.</p>
+      <div class="suggestions">
+        <button class="suggestion" data-prompt="Объясни мне сложную тему простыми словами"><strong>✦ Объясни тему</strong><span>Понятно и по шагам</span></button>
+        <button class="suggestion" data-prompt="Помоги решить задачу и объясни решение по шагам"><strong>⌁ Реши задачу</strong><span>С объяснением</span></button>
+        <button class="suggestion" data-prompt="Помоги придумать идею для моего проекта"><strong>✧ Придумай идею</strong><span>Мозговой штурм</span></button>
+        <button class="suggestion" data-prompt="Расскажи, что ты умеешь делать"><strong>↗ Что ты умеешь?</strong><span>Возможности NOVA</span></button>
+      </div>
+    </section>
+    <section id="messages" aria-live="polite"></section>
+  </main>
+  <div class="composer-wrap">
+    <form class="composer" id="chatForm">
+      <div class="preview" id="preview"><img id="previewImage" alt="Предпросмотр изображения"><span class="preview-name" id="previewName"></span><button class="icon-btn" id="removeImage" type="button" aria-label="Удалить изображение">×</button></div>
+      <div class="input-row">
+        <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden">
+        <button class="icon-btn" type="button" id="attach" aria-label="Прикрепить изображение" title="Прикрепить фото"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m20.4 11.1-8.9 8.9a5 5 0 0 1-7.1-7.1l9.2-9.2a3.5 3.5 0 0 1 5 5l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg></button>
+        <textarea id="messageInput" rows="1" placeholder="Напиши свой вопрос..." maxlength="8000"></textarea>
+        <button class="send" id="sendBtn" type="submit" aria-label="Отправить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5m-7 7 7-7 7 7"/></svg></button>
+      </div>
+    </form>
+    <div class="footnote">NOVA может ошибаться — проверяй важную информацию. Не отправляй пароли и личные документы.</div>
+  </div>
+</div>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const form = $("chatForm"), input = $("messageInput"), imageInput = $("imageInput");
+  const messagesEl = $("messages"), welcome = $("welcome"), sendBtn = $("sendBtn");
+  let selectedFile = null, history = [], busy = false;
+
+  function resizeInput(){ input.style.height="auto"; input.style.height=Math.min(input.scrollHeight,160)+"px"; }
+  input.addEventListener("input",resizeInput);
+  input.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit();}});
+  $("attach").addEventListener("click",()=>imageInput.click());
+  imageInput.addEventListener("change",()=>{
+    const f=imageInput.files?.[0];
+    if(!f){clearImage();return;}
+    if(f.size>5*1024*1024){alert("Изображение должно быть не больше 5 МБ.");imageInput.value="";return;}
+    selectedFile=f;
+    $("previewImage").src=URL.createObjectURL(f);
+    $("previewName").textContent=f.name;
+    $("preview").classList.add("show");
+  });
+  function clearImage(){selectedFile=null;imageInput.value="";$("preview").classList.remove("show");$("previewImage").removeAttribute("src");}
+  $("removeImage").addEventListener("click",clearImage);
+  document.querySelectorAll("[data-prompt]").forEach(b=>b.addEventListener("click",()=>{input.value=b.dataset.prompt;resizeInput();input.focus();}));
+  $("newChat").addEventListener("click",()=>{history=[];messagesEl.replaceChildren();welcome.classList.remove("hidden");clearImage();input.value="";resizeInput();});
+
+  function addMessage(role,text,imageUrl=null){
+    const row=document.createElement("div");row.className="message "+role;
+    const avatar=document.createElement("div");avatar.className="avatar";avatar.textContent=role==="assistant"?"N":"Т";
+    const bubble=document.createElement("div");bubble.className="bubble";
+    if(imageUrl){const img=document.createElement("img");img.src=imageUrl;img.alt="Прикреплённое изображение";bubble.append(img);}
+    if(text){const span=document.createElement("span");span.textContent=text;bubble.append(span);}
+    row.append(avatar,bubble);messagesEl.append(row);row.scrollIntoView({behavior:"smooth",block:"nearest"});return row;
+  }
+  form.addEventListener("submit",async e=>{
+    e.preventDefault();if(busy)return;
+    const text=input.value.trim(), file=selectedFile;
+    if(!text&&!file)return;
+    busy=true;sendBtn.disabled=true;$("statusText").textContent="Думаю…";welcome.classList.add("hidden");
+    const localUrl=file?URL.createObjectURL(file):null;
+    addMessage("user",text,localUrl);
+    const previousHistory=history.slice(-10);
+    history.push({role:"user",content:text||(file?"Пожалуйста, проанализируй прикреплённое изображение.":"")});
+    input.value="";resizeInput();clearImage();
+    const typing=addMessage("assistant","NOVA печатает…");typing.querySelector(".bubble").classList.add("typing");
+    try{
+      const body=new FormData();body.append("message",text);body.append("history",JSON.stringify(previousHistory));
+      if(file)body.append("image",file,file.name);
+      const response=await fetch("/api/chat",{method:"POST",body});
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok)throw new Error(data.error||"Не удалось получить ответ.");
+      typing.querySelector(".bubble").textContent=data.answer;
+      typing.querySelector(".bubble").classList.remove("typing");
+      history.push({role:"assistant",content:data.answer});
+    }catch(err){
+      typing.querySelector(".bubble").textContent="Ошибка: "+(err.message||"Не удалось подключиться.")+" Проверь, что сервер и ИИ-модель запущены.";
+      typing.querySelector(".bubble").classList.add("error");
+      history.pop();
+    }finally{
+      if(localUrl)URL.revokeObjectURL(localUrl);
+      busy=false;sendBtn.disabled=false;$("statusText").textContent="Ассистент готов";input.focus();
+    }
+  });
+})();
+</script>
+</body>
+</html>
