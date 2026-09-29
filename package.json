@@ -5,7 +5,7 @@
   "description": "NOVA AI — responsive chat assistant with image upload and an OpenAI-compatible vision backend",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server.сjs",
     "dev": "node --watch server.js"
   },
   "engines": { "node": ">=20" },
