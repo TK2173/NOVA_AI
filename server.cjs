@@ -26,7 +26,42 @@ app.post("/api/chat", upload.single("image"), async (req, res) => {
       });
     }
 
-    const response = await fetch("https://api.openai.com/v1/responses", {
+    
+const response = await fetch(
+  "https://openrouter.ai/api/v1/chat/completions",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: "openai/gpt-4o-mini",
+      messages: [
+        ...(Array.isArray(history) ? history : []),
+        {
+          role: "user",
+          content: message
+        }
+      ]
+    })
+  }
+);
+
+const data = await response.json();
+
+if (!response.ok) {
+  console.error("OpenRouter error:", data);
+  return res.status(response.status).json({
+    error: data?.error?.message || "Ошибка ИИ."
+  });
+}
+
+res.json({
+  answer: data.choices?.[0]?.message?.content
+    || "ИИ не вернул текстовый ответ."
+});
+
       method: "POST",
       headers: {
         "Content-Type": "application/json",
