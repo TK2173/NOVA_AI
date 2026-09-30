@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.post("/api/chat", async (req, res) => {
+app.post("/api/chat", upload.single("image"), async (req, res) => {
   try {
     const { message, history } = req.body;
 
