@@ -55,7 +55,7 @@ app.post("/api/chat", upload.single("image"), async (req, res) => {
           "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
         },
         body: JSON.stringify({
-          model: "openai/gpt-4o-mini",
+          model: "openai/gpt-oss-20b:free",
           messages
         })
       }
